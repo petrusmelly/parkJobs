@@ -4,6 +4,7 @@ import { getAndCleanAllNpsJobs } from './usajAPI.js';
 import { getCleanSaveAllNpsJobs } from './getCleanSave.js';
 import './scheduler.js';
 import mysql from 'mysql2/promise';
+import { getDbJobs } from './getDbJobs.js';
 
 const app = express();
 const port = 3000;
@@ -38,6 +39,16 @@ app.get('/api/jobs', async (req, res) => {
     }
 });
 
+app.get('/park/jobs', async (req, res) => {
+    try {
+        const jobData = await getDbJobs();
+        res.json(jobData);
+    } catch (err) {
+        console.error('Failed to fetch jobs from DB:', err);
+        res.status(500).send('Failed to fetch jobs from the database');
+    }
+});
+
 // start server
 app.listen(port, () => {
     console.log(`ParkJobs app listening on port ${port}`)
@@ -49,8 +60,8 @@ app.listen(port, () => {
 
 let runJobs = false;
 
-// Now that the fetch, clean, save, is working, set this to false to running up API usage. The data is already saved to the DB.
-// If you want/need fresh data, drop the table, then re run it. Then, set back to false.
+// Now that the fetch, clean, save, is working, set this to false to avoid running up API usage. The data is already saved to the DB.
+// If you want/need fresh data, drop the table, then re-run it. Then, set back to false.
 
 let runAPI = false;
 
@@ -86,6 +97,9 @@ if (runJobs) {
         console.log('runJobs and  runAPI set to false.');
     }
 };
+
+// console.log('About to run getDbJobs...');
+// getDbJobs();
 
 
 
