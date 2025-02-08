@@ -5,6 +5,7 @@ import { getCleanSaveAllNpsJobs } from './getCleanSave.js';
 import './scheduler.js';
 import mysql from 'mysql2/promise';
 import { getDbJobs } from './getDbJobs.js';
+import { dumpGetCleanSaveAllNpsJobs } from './public/js/dumpGetCleanSave.js';
 
 const app = express();
 const port = 3000;
@@ -39,6 +40,8 @@ app.get('/api/jobs', async (req, res) => {
     }
 });
 
+
+// this will display the DB dadta as JSON in the browser
 app.get('/park/jobs', async (req, res) => {
     try {
         const jobData = await getDbJobs();
@@ -46,7 +49,7 @@ app.get('/park/jobs', async (req, res) => {
     } catch (err) {
         console.error('Failed to fetch jobs from DB:', err);
         res.status(500).send('Failed to fetch jobs from the database');
-    }
+    } 
 });
 
 // start server
@@ -65,6 +68,22 @@ let runJobs = false;
 
 let runAPI = false;
 
+let runRefresh = true;
+
+// The code below uses the dumpGetCleanSave (the whole enchilada) function. Use it to test the full functionality of what we want the API function to do.
+
+function refreshNpsJobData() {
+    (async () => {
+        try {
+            await dumpGetCleanSaveAllNpsJobs();
+            console.log('Refreshed database.');
+    } catch (err) {
+        console.error('Error refreshing database:', err);
+    }
+    })();
+}
+
+
 function fetchNPSJobs() {
     (async () => {
         try {
@@ -75,6 +94,7 @@ function fetchNPSJobs() {
         }
     })();
 };
+
 
 function fetchCleanAndSaveNPSJobs() {
     (async () => {
@@ -87,6 +107,7 @@ function fetchCleanAndSaveNPSJobs() {
     })();
 };
 
+
 if (runJobs) {
     fetchNPSJobs();
 } else {
@@ -94,7 +115,8 @@ if (runJobs) {
         fetchCleanAndSaveNPSJobs();
     }
     else {
-        console.log('runJobs and  runAPI set to false.');
+        refreshNpsJobData();
+        console.log('runJobs and  runAPI set to false. Running refresh.');
     }
 };
 
