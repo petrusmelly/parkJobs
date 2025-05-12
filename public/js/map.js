@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
         attribution: '© OpenStreetMap'
     }).addTo(map);
 
-    const marker = L.marker([40, -77.03]).addTo(map);
-    marker.bindPopup("Hello, world!").openPopup();
+    // const marker = L.marker([40, -77.03]).addTo(map);
+    // marker.bindPopup("Hello, world!").openPopup();
 
     fetch('/park/jobs')
         .then(response => response.json())

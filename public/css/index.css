@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    background: #f4f4f4;
+}
+
+header h1 {
+    color: #333;
+}
+
+main {
+    display: flex;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 5px;
+    height: 60vh;
+    width:100%;
+    justify-content: center;
+    align-items:center;
+}
+
+#map {
+    width:90%;
+    height: 90%;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+h2 {
+    margin-top: 2.5rem;
+}
+
+#table-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#tableContainer {
+    width: 80vw; /* Adjust width as necessary */
+    height: 250px; /* Adjust based on row height to show about 5 rows */
+    overflow-y: auto; /* Allows vertical scrolling */
+    border: 1px solid #ccc; /* Optional, for better visibility of the container */
+}
+
+table {
+    height: 200px;
+    overflow-y: auto;
+    background: #e8e8e8;
+    margin: 20px 0;
+}
+
+#about-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#about-section p {
+    width: 90%;
+}
+
+footer {
+    background: #222;
+    color: #fff;
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+}
+
+.footer-links li {
+    list-style: none;
+}
+
+.footer-links a {
+    text-decoration: none;
+    color: #f4f4f4;
+    transition: color 1s;
+
+}
+
+.footer-links {
+    display:flex;
+    justify-content: space-around;
+}
+
+.footer-links a:hover {
+    color:#ffd700;
+
+}
+
