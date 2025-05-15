@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About ParkJobs</title>
+    <link rel="stylesheet" href="static/css/about.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="/">Back to National Parks Jobs Map</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <img src="/static/images/PJ_Logo-02.svg" alt="" id="logo">
+    </header>
+    <main class="container">
+        <section id="about-section"></section>
+        <h1>What is this?</h1>
+        <div class="about-p">
+            <p>This is ParkJobs! I'm a former park ranger learning to code. Everyone suggests project-based coding as
+                the best way to
+                learn. I
+                always wanted there to be a map function on USA Jobs, so I made one.</p>
+
+            <p>Turns out, learning to code is really challenging when you don't know anything about it. I
+                learned in fits and starts, C# (gamedev), JS (webdev), Python. Little of this, little of that. Finally,
+                after
+                starting a GIS certificate, I decided to get on with this and make it for my portfolio.</p>
+
+            <p>I call the data from the USAJOBS API and then parse it, extracting what I need. Then I use Leaflet.js for
+                the
+                map, and iterate through the jobs I pulled to populate the pins. If a job has multiple locations listed,
+                or
+                the API data doesn't have a location listed, it goes in the "Jobs with Multiple Locations" table.</p>
+
+            <p>I may return to this and work on the JS code to more elegantly handle the API data and gussy up the
+                styling.
+                CSS is
+                not my favorite, though. This is it for now. Hope you enjoy it!</p>
+        </div>
+        </section>
+    </main>
+
+
+    <footer>
+        <nav class="footer-nav">
+            <ul class="footer-links">
+                <li><a href="https://www.usajobs.gov/">USA Jobs</a></li>
+                <li><a href="https://www.nps.gov/index.htm">NPS Homepage</a></li>
+                <li><a href="https://www.reddit.com/r/ParkRangers/">Park Ranger Subreddit</a></li>
+                <li><a href="https://www.reddit.com/r/usajobs/">USA Jobs Subreddit</a></li>
+            </ul>
+
+        </nav>
+    </footer>
+
+</body>
+
+
+</html>

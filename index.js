@@ -41,6 +41,11 @@ app.get('/api/jobs', async (req, res) => {
 });
 
 
+app.get('/about', (req, res) => {
+    res.sendFile('about.html', {root: './public/views'});
+});
+
+
 // this will display the DB dadta as JSON in the browser
 app.get('/park/jobs', async (req, res) => {
     try {

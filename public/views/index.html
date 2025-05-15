@@ -15,7 +15,9 @@
 <body>
 
     <header>
+        <img src="/static/images/PJ_Logo-02.svg" alt="" id="logo">
         <h1>Park Jobs</h1>
+        <span><a href="/about">About</a></span>
     </header>
 
     <main id="map-container">
@@ -31,25 +33,6 @@
 
         <div id="tableContainer"></div>
 
-    </section>
-
-    <section id="about-section">
-        <h2>About This Page</h2>
-        <p>I'm a former park ranger learning to code. Everyone suggests project-based coding as the best way to learn. I
-            always wanted there to be a map function on USA Jobs, so I made one.</p>
-
-        <p>Turns out, learning to code is really challenging when you don't know anything about it. I
-            learned in fits and starts, C# (gamedev), JS (webdev), Python. Little of this, little of that. Finally,
-            after
-            starting a GIS certificate, I decided to get on with this and make it for my portfolio.</p>
-
-        <p>I call the data from the USAJOBS API and then parse it, extracting what I need. Then I use Leaflet.js for the
-            map, and iterate through the jobs I pulled to populate the pins. If a job has multiple locations listed, or
-            the API data doesn't have a location listed, it goes in the "Jobs with Multiple Locations" table.</p>
-
-        <p>I may return to this and work on the JS code to more elegantly handle the API data and gussy up the styling.
-            CSS is
-            not my favorite, though. This is it for now. Hope you enjoy it!</p>
     </section>
 
     <footer>

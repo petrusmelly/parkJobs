@@ -1179,8 +1179,8 @@
     "site_name": "Cape Cod National Seashore",
     "position_location_display": "Wellfleet, Massachusetts",
     "start_date": "2024-12-23T00:00:00.0000",
-    "end_date": "2025-05-22T23:59:59.9970",
-    "close_date": "2025-05-22T23:59:59.9970",
+    "end_date": "2025-06-23T23:59:59.9970",
+    "close_date": "2025-06-23T23:59:59.9970",
     "occupational_series": "0189",
     "job_schedule": "GS",
     "low_grade": "3",
@@ -1192,26 +1192,6 @@
     "longitude": -70.029366,
     "apply_URL": [
       "https://www.usajobs.gov:443/GetJob/ViewDetails/825374800"
-    ]
-  },
-  {
-    "job_title": "Lead Recreation Assistant (Lead Lifeguard) (Seasonal)",
-    "site_name": "Cape Cod National Seashore",
-    "position_location_display": "Wellfleet, Massachusetts",
-    "start_date": "2024-12-23T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "0189",
-    "job_schedule": "GS",
-    "low_grade": "6",
-    "high_grade": "6",
-    "min_wage": "49838",
-    "max_wage": "49838",
-    "location_name": "Wellfleet, Massachusetts",
-    "latitude": 41.94123,
-    "longitude": -70.029366,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/825378600"
     ]
   },
   {
@@ -1714,186 +1694,6 @@
     ]
   },
   {
-    "job_title": "Archeological Technician (Seasonal)",
-    "site_name": "Delaware Water Gap NRA (DEWA)",
-    "position_location_display": "Bushkill, Pennsylvania",
-    "start_date": "2025-04-28T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "0102",
-    "job_schedule": "GS",
-    "low_grade": "5",
-    "high_grade": "5",
-    "min_wage": "47529",
-    "max_wage": "61782",
-    "location_name": "Bushkill, Pennsylvania",
-    "latitude": 41.1009,
-    "longitude": -75.0036,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/835679700"
-    ]
-  },
-  {
-    "job_title": "Supervisory Park Ranger (P)",
-    "site_name": "Grand Canyon National Park",
-    "position_location_display": "Multiple Locations",
-    "start_date": "2025-04-23T00:00:00.0000",
-    "end_date": "2025-05-14T23:59:59.9970",
-    "close_date": "2025-05-14T23:59:59.9970",
-    "occupational_series": "0025",
-    "job_schedule": "GS",
-    "low_grade": "11",
-    "high_grade": "11",
-    "min_wage": "73939",
-    "max_wage": "96116",
-    "location_name": "Grand Canyon, Arizona",
-    "latitude": 36.299404,
-    "longitude": -112.79024,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/835691800"
-    ]
-  },
-  {
-    "job_title": "Supervisory Park Ranger (Protection)",
-    "site_name": "Zion National Park",
-    "position_location_display": "Springdale, Utah",
-    "start_date": "2025-04-28T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "0025",
-    "job_schedule": "GS",
-    "low_grade": "11",
-    "high_grade": "11",
-    "min_wage": "73939",
-    "max_wage": "96116",
-    "location_name": "Springdale, Utah",
-    "latitude": 37.18314,
-    "longitude": -113.0037,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/835989800"
-    ]
-  },
-  {
-    "job_title": "Criminal Investigator (Special Agent)",
-    "site_name": "Visitor and Resource Protection - Investigative Services Branch",
-    "position_location_display": "Multiple Locations",
-    "start_date": "2025-05-04T00:00:00.0000",
-    "end_date": "2025-05-17T23:59:59.9970",
-    "close_date": "2025-05-17T23:59:59.9970",
-    "occupational_series": "1811",
-    "job_schedule": "GS",
-    "low_grade": "11",
-    "high_grade": "12",
-    "min_wage": "73939",
-    "max_wage": "115793",
-    "location_name": "Harrison, Arkansas",
-    "latitude": 36.2286,
-    "longitude": -93.1105,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/835995100"
-    ]
-  },
-  {
-    "job_title": "Safety and Occupational Health Manager",
-    "site_name": "Zion National Park",
-    "position_location_display": "Springdale, Utah",
-    "start_date": "2025-04-28T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "0018",
-    "job_schedule": "GS",
-    "low_grade": "12",
-    "high_grade": "12",
-    "min_wage": "88621",
-    "max_wage": "115213",
-    "location_name": "Springdale, Utah",
-    "latitude": 37.18314,
-    "longitude": -113.0037,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/835997900"
-    ]
-  },
-  {
-    "job_title": "Park Ranger (Protection)",
-    "site_name": "Ocmulgee Mounds National Historical Park",
-    "position_location_display": "Macon, Georgia",
-    "start_date": "2025-04-29T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "0025",
-    "job_schedule": "GS",
-    "low_grade": "11",
-    "high_grade": "11",
-    "min_wage": "73939",
-    "max_wage": "96116",
-    "location_name": "Macon, Georgia",
-    "latitude": 32.839684,
-    "longitude": -83.62758,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836047400"
-    ]
-  },
-  {
-    "job_title": "Supervisory Park Ranger (Protection)",
-    "site_name": "Law Enforcement, Security, and Emergency Services",
-    "position_location_display": "Glynco, Georgia",
-    "start_date": "2025-04-29T08:18:29.5430",
-    "end_date": "2025-05-13T23:59:59.9970",
-    "close_date": "2025-05-13T23:59:59.9970",
-    "occupational_series": "0025",
-    "job_schedule": "GS",
-    "low_grade": "14",
-    "high_grade": "14",
-    "min_wage": "124531",
-    "max_wage": "161889",
-    "location_name": "Glynco, Georgia",
-    "latitude": 31.22245,
-    "longitude": -81.5101,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836084900"
-    ]
-  },
-  {
-    "job_title": "SEASONAL Engineering Equipment Operator",
-    "site_name": "Pacific West Region (Interior Regions 8, 9, 10, and 12)—Golden Gate National Recreation Area",
-    "position_location_display": "Sausalito, California",
-    "start_date": "2025-04-30T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "5716",
-    "job_schedule": "WG",
-    "low_grade": "8",
-    "high_grade": "8",
-    "min_wage": "35.12",
-    "max_wage": "40.91",
-    "location_name": "Sausalito, California",
-    "latitude": 37.835266,
-    "longitude": -122.51025,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836152600"
-    ]
-  },
-  {
-    "job_title": "Public Safety Dispatcher",
-    "site_name": "Big Bend National Park",
-    "position_location_display": "Big Bend National Park, Texas",
-    "start_date": "2025-04-30T11:03:09.7700",
-    "end_date": "2025-05-14T23:59:59.9970",
-    "close_date": "2025-05-14T23:59:59.9970",
-    "occupational_series": "2151",
-    "job_schedule": "GS",
-    "low_grade": "5",
-    "high_grade": "6",
-    "min_wage": "40332",
-    "max_wage": "58445",
-    "location_name": "Big Bend National Park, Texas",
-    "latitude": 29.330334,
-    "longitude": -103.30447,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836184800"
-    ]
-  },
-  {
     "job_title": "Maintenance Worker (Seasonal)",
     "site_name": "Prince William Forest Park",
     "position_location_display": "Triangle, Virginia",
@@ -1938,8 +1738,8 @@
     "site_name": "Pacific West Region (Interior Regions 8,9,10,12) - Sequoia and Kings Canyon National Parks",
     "position_location_display": "Multiple Locations",
     "start_date": "2025-05-06T00:00:00.0000",
-    "end_date": "2025-05-15T23:59:59.9970",
-    "close_date": "2025-05-15T23:59:59.9970",
+    "end_date": "2025-05-22T23:59:59.9970",
+    "close_date": "2025-05-22T23:59:59.9970",
     "occupational_series": "5716",
     "job_schedule": "WG",
     "low_grade": "8",
@@ -1994,26 +1794,6 @@
     ]
   },
   {
-    "job_title": "Physical Security Specialist",
-    "site_name": "Inflation Reduction Act",
-    "position_location_display": "Philadelphia, Pennsylvania",
-    "start_date": "2025-05-07T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "0080",
-    "job_schedule": "GS",
-    "low_grade": "11",
-    "high_grade": "11",
-    "min_wage": "81474",
-    "max_wage": "105911",
-    "location_name": "Philadelphia, Pennsylvania",
-    "latitude": 39.95227,
-    "longitude": -75.16237,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836526900"
-    ]
-  },
-  {
     "job_title": "Dispatcher (Public Safety)",
     "site_name": "Mesa Verde National Park",
     "position_location_display": "Mesa Verde National Park, Colorado",
@@ -2031,46 +1811,6 @@
     "longitude": -108.4469,
     "apply_URL": [
       "https://www.usajobs.gov:443/GetJob/ViewDetails/836545400"
-    ]
-  },
-  {
-    "job_title": "Seasonal Masonry Worker",
-    "site_name": "Glacier National Park",
-    "position_location_display": "West Glacier, Montana",
-    "start_date": "2025-05-07T00:00:00.0000",
-    "end_date": "2025-05-13T23:59:59.9970",
-    "close_date": "2025-05-13T23:59:59.9970",
-    "occupational_series": "3603",
-    "job_schedule": "WG",
-    "low_grade": "7",
-    "high_grade": "7",
-    "min_wage": "25.86",
-    "max_wage": "30.17",
-    "location_name": "West Glacier, Montana",
-    "latitude": 48.496586,
-    "longitude": -113.98317,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836545700"
-    ]
-  },
-  {
-    "job_title": "(Seasonal) Biological Science Technician",
-    "site_name": "Cape Lookout National Seashore",
-    "position_location_display": "Harkers Island, North Carolina",
-    "start_date": "2025-05-08T00:00:00.0000",
-    "end_date": "2025-05-12T23:59:59.9970",
-    "close_date": "2025-05-12T23:59:59.9970",
-    "occupational_series": "0404",
-    "job_schedule": "GS",
-    "low_grade": "5",
-    "high_grade": "5",
-    "min_wage": "40332",
-    "max_wage": "52426",
-    "location_name": "Harkers Island, North Carolina",
-    "latitude": 34.6949,
-    "longitude": -76.5588,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836563300"
     ]
   },
   {
@@ -2131,26 +1871,6 @@
     "longitude": -113.0037,
     "apply_URL": [
       "https://www.usajobs.gov:443/GetJob/ViewDetails/836656000"
-    ]
-  },
-  {
-    "job_title": "Seasonal Maintenance Worker",
-    "site_name": "Little River Canyon National Park",
-    "position_location_display": "Fort Payne, Alabama",
-    "start_date": "2025-05-09T00:00:00.0000",
-    "end_date": "2025-05-13T23:59:59.9970",
-    "close_date": "2025-05-13T23:59:59.9970",
-    "occupational_series": "4749",
-    "job_schedule": "WG",
-    "low_grade": "5",
-    "high_grade": "5",
-    "min_wage": "20.6",
-    "max_wage": "23.96",
-    "location_name": "Fort Payne, Alabama",
-    "latitude": 34.4413,
-    "longitude": -85.7144,
-    "apply_URL": [
-      "https://www.usajobs.gov:443/GetJob/ViewDetails/836663900"
     ]
   },
   {
@@ -2236,8 +1956,8 @@
     "job_title": "Park Ranger (Protection) (Seasonal)",
     "position_location_display": "Multiple Locations",
     "start_date": "2025-05-12T00:00:00.0000",
-    "end_date": "2025-05-16T23:59:59.9970",
-    "close_date": "2025-05-16T23:59:59.9970",
+    "end_date": "2025-05-23T23:59:59.9970",
+    "close_date": "2025-05-23T23:59:59.9970",
     "occupational_series": "0025",
     "job_schedule": "GS",
     "low_grade": "5",
@@ -2255,8 +1975,8 @@
     "job_title": "Park Ranger (Interpretation) (Seasonal)",
     "position_location_display": "Anchorage, AK ",
     "start_date": "2025-05-12T00:00:00.0000",
-    "end_date": "2025-05-16T23:59:59.9970",
-    "close_date": "2025-05-16T23:59:59.9970",
+    "end_date": "2025-05-23T23:59:59.9970",
+    "close_date": "2025-05-23T23:59:59.9970",
     "occupational_series": "0025",
     "job_schedule": "GS",
     "low_grade": "5",
@@ -2274,8 +1994,8 @@
     "job_title": "Park Guide (Seasonal)",
     "position_location_display": "Multiple Locations",
     "start_date": "2025-05-12T00:00:00.0000",
-    "end_date": "2025-05-16T23:59:59.9970",
-    "close_date": "2025-05-16T23:59:59.9970",
+    "end_date": "2025-05-23T23:59:59.9970",
+    "close_date": "2025-05-23T23:59:59.9970",
     "occupational_series": "0090",
     "job_schedule": "GS",
     "low_grade": "4",
@@ -2293,8 +2013,8 @@
     "job_title": "Recreation Fee Clerk & Technician (Seasonal)",
     "position_location_display": "Fort Payne, AL ",
     "start_date": "2025-05-12T00:00:00.0000",
-    "end_date": "2025-05-16T23:59:59.9970",
-    "close_date": "2025-05-16T23:59:59.9970",
+    "end_date": "2025-05-23T23:59:59.9970",
+    "close_date": "2025-05-23T23:59:59.9970",
     "occupational_series": "0503",
     "job_schedule": "GS",
     "low_grade": "4",
@@ -2312,8 +2032,8 @@
     "job_title": "Visitor Services Assistant (Seasonal)",
     "position_location_display": "Vincennes, IN ",
     "start_date": "2025-05-12T00:00:00.0000",
-    "end_date": "2025-05-16T23:59:59.9970",
-    "close_date": "2025-05-16T23:59:59.9970",
+    "end_date": "2025-05-23T23:59:59.9970",
+    "close_date": "2025-05-23T23:59:59.9970",
     "occupational_series": "0303",
     "job_schedule": "GS",
     "low_grade": "3",
@@ -2365,6 +2085,226 @@
     "longitude": -96.53979,
     "apply_URL": [
       "https://www.usajobs.gov:443/GetJob/ViewDetails/836806800"
+    ]
+  },
+  {
+    "job_title": "Park Ranger (Protection)",
+    "site_name": "Great Smoky Mountains National Park",
+    "position_location_display": "Multiple Locations",
+    "start_date": "2025-05-13T00:00:00.0000",
+    "end_date": "2025-05-27T23:59:59.9970",
+    "close_date": "2025-05-27T23:59:59.9970",
+    "occupational_series": "0025",
+    "job_schedule": "GS",
+    "low_grade": "11",
+    "high_grade": "11",
+    "min_wage": "73939",
+    "max_wage": "96116",
+    "location_name": "Cherokee, North Carolina",
+    "latitude": 35.499805,
+    "longitude": -83.30479,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836831900"
+    ]
+  },
+  {
+    "job_title": "Administrative Support Assistant (OA) (Seasonal)",
+    "site_name": "Bering Land Bridge National Preserve",
+    "position_location_display": "Nome, Alaska",
+    "start_date": "2025-05-13T00:00:00.0000",
+    "end_date": "2025-05-19T23:59:59.9970",
+    "close_date": "2025-05-19T23:59:59.9970",
+    "occupational_series": "0303",
+    "job_schedule": "GS",
+    "low_grade": "7",
+    "high_grade": "7",
+    "min_wage": "27.07",
+    "max_wage": "35.19",
+    "location_name": "Nome, Alaska",
+    "latitude": 64.49956,
+    "longitude": -165.4047,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836854100"
+    ]
+  },
+  {
+    "job_title": "Seasonal Laborer (MVO)",
+    "site_name": "Pacific West Region (Interior Regions 8,9,10 and 12) - Olympic National Park",
+    "position_location_display": "Multiple Locations",
+    "start_date": "2025-05-14T00:00:00.0000",
+    "end_date": "2025-05-21T23:59:59.9970",
+    "close_date": "2025-05-21T23:59:59.9970",
+    "occupational_series": "3502",
+    "job_schedule": "WG",
+    "low_grade": "5",
+    "high_grade": "5",
+    "min_wage": "27.68",
+    "max_wage": "32.28",
+    "location_name": "Amanda Park, Washington",
+    "latitude": 47.459175,
+    "longitude": -123.89523,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836886500"
+    ]
+  },
+  {
+    "job_title": "Utility Systems Repairer-Operator",
+    "site_name": "Jean Lafitte National Historic Park & Preserve",
+    "position_location_display": "Chalmette, Louisiana",
+    "start_date": "2025-05-13T12:26:07.2830",
+    "end_date": "2025-05-27T23:59:59.9970",
+    "close_date": "2025-05-27T23:59:59.9970",
+    "occupational_series": "4742",
+    "job_schedule": "WG",
+    "low_grade": "8",
+    "high_grade": "8",
+    "min_wage": "30.95",
+    "max_wage": "36.11",
+    "location_name": "Chalmette, Louisiana",
+    "latitude": 29.94148,
+    "longitude": -89.973465,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836895900"
+    ]
+  },
+  {
+    "job_title": "Supervisory Park Ranger (Protection)",
+    "site_name": "Yosemite National Park",
+    "position_location_display": "Yosemite National Park, California",
+    "start_date": "2025-05-14T00:00:00.0000",
+    "end_date": "2025-05-20T23:59:59.9970",
+    "close_date": "2025-05-20T23:59:59.9970",
+    "occupational_series": "0025",
+    "job_schedule": "GS",
+    "low_grade": "12",
+    "high_grade": "12",
+    "min_wage": "89068",
+    "max_wage": "115793",
+    "location_name": "Yosemite National Park, California",
+    "latitude": 37.8391,
+    "longitude": -119.5408,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836930600"
+    ]
+  },
+  {
+    "job_title": "Park Ranger (Protection) - Law Enforcement Specialist",
+    "site_name": "Yosemite National Park",
+    "position_location_display": "Yosemite National Park, California",
+    "start_date": "2025-05-14T00:00:00.0000",
+    "end_date": "2025-05-20T23:59:59.9970",
+    "close_date": "2025-05-20T23:59:59.9970",
+    "occupational_series": "0025",
+    "job_schedule": "GS",
+    "low_grade": "12",
+    "high_grade": "12",
+    "min_wage": "89068",
+    "max_wage": "115793",
+    "location_name": "Yosemite National Park, California",
+    "latitude": 37.8391,
+    "longitude": -119.5408,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836930700"
+    ]
+  },
+  {
+    "job_title": "Supervisory Park Ranger (Protection)",
+    "site_name": "Yosemite National Park",
+    "position_location_display": "Yosemite National Park, California",
+    "start_date": "2025-05-14T00:00:00.0000",
+    "end_date": "2025-05-20T23:59:59.9970",
+    "close_date": "2025-05-20T23:59:59.9970",
+    "occupational_series": "0025",
+    "job_schedule": "GS",
+    "low_grade": "13",
+    "high_grade": "13",
+    "min_wage": "105914",
+    "max_wage": "137691",
+    "location_name": "Yosemite National Park, California",
+    "latitude": 37.8391,
+    "longitude": -119.5408,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836930900"
+    ]
+  },
+  {
+    "job_title": "Seasonal Student Trainee (Park Guide)",
+    "site_name": "Charles Young NM and Pipestone NM",
+    "position_location_display": "Multiple Locations",
+    "start_date": "2025-05-14T09:35:54.8530",
+    "end_date": "2025-05-21T23:59:59.9970",
+    "close_date": "2025-05-21T23:59:59.9970",
+    "occupational_series": "0099",
+    "job_schedule": "GS",
+    "low_grade": "4",
+    "high_grade": "5",
+    "min_wage": "17.64",
+    "max_wage": "20.05",
+    "location_name": "Pipestone, Minnesota",
+    "latitude": 43.9941,
+    "longitude": -96.3171,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836959700"
+    ]
+  },
+  {
+    "job_title": "Seasonal Park Ranger (General)",
+    "site_name": "Isle Royale National Park",
+    "position_location_display": "Isle Royale National Park, Michigan",
+    "start_date": "2025-05-14T10:57:52.5270",
+    "end_date": "2025-05-28T23:59:59.9970",
+    "close_date": "2025-05-28T23:59:59.9970",
+    "occupational_series": "0025",
+    "job_schedule": "GS",
+    "low_grade": "5",
+    "high_grade": "5",
+    "min_wage": "19.33",
+    "max_wage": "19.33",
+    "location_name": "Isle Royale National Park, Michigan",
+    "latitude": 47.995865,
+    "longitude": -88.90929,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/836973800"
+    ]
+  },
+  {
+    "job_title": "(Seasonal) Maintenance Worker",
+    "site_name": "Pacific West Region (Interior Regions 8,9,10 and 12) - Hawaii Volcanoes National Park",
+    "position_location_display": "Hawaii National Park, Hawaii",
+    "start_date": "2025-05-15T00:00:00.0000",
+    "end_date": "2025-05-30T23:59:59.9970",
+    "close_date": "2025-05-30T23:59:59.9970",
+    "occupational_series": "4749",
+    "job_schedule": "WG",
+    "low_grade": "5",
+    "high_grade": "5",
+    "min_wage": "25.75",
+    "max_wage": "30.03",
+    "location_name": "Hawaii National Park, Hawaii",
+    "latitude": 19.383335,
+    "longitude": -155.2,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/837034000"
+    ]
+  },
+  {
+    "job_title": "Logistics Management Specialist",
+    "site_name": "Wildland Fire and Aviation Management",
+    "position_location_display": "Albuquerque, New Mexico",
+    "start_date": "2025-05-15T08:57:10.4170",
+    "end_date": "2025-05-22T23:59:59.9970",
+    "close_date": "2025-05-22T23:59:59.9970",
+    "occupational_series": "0346",
+    "job_schedule": "GS",
+    "low_grade": "9",
+    "high_grade": "11",
+    "min_wage": "72894",
+    "max_wage": "108817",
+    "location_name": "Albuquerque, New Mexico",
+    "latitude": 35.0842,
+    "longitude": -106.649,
+    "apply_URL": [
+      "https://www.usajobs.gov:443/GetJob/ViewDetails/837047700"
     ]
   }
 ]
