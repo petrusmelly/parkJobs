@@ -6,7 +6,9 @@
 import fetch from 'node-fetch';
 import { writeFile } from 'node:fs/promises';
 import dotenv from 'dotenv';
-import mysql from 'mysql2/promise';
+import pkg from 'pg';
+
+const { Pool } =pkg;
 
 dotenv.config();
 
@@ -14,21 +16,23 @@ const host = process.env.HOST;
 const userAgent = process.env.USER_AGENT;  
 const authKey = process.env.AUTH_KEY;
 const apiUrl = process.env.API_URL;
-const dbUser = process.env.DB_USER;
-const dbHost = process.env.DB_HOST;
+const dbUser = process.env.DB_USERNAME;
+const dbHost = process.env.DB_HOST_NAME;
 const dbPW = process.env.DB_PW;
-const db = process.env.DB;
+const db = process.env.DB_NAME;
 
+const pool = new Pool ({
+    host: dbHost,
+    user: dbUser,
+    password: dbPW,
+    database: db,
+    port: 5432,
+    ssl: { rejectUnauthorized: false }
+});
 
 async function connectToDatabase() {
-    const connection = await mysql.createConnection({
-        host: dbHost,
-        user: dbUser,
-        password: dbPW,
-        database: db
-    });
-    return connection;
-};
+    return pool.connect();
+}
             
 const headers = new Headers({
     'Host': host,
@@ -103,8 +107,22 @@ export async function getCleanSaveAllNpsJobs() {
         
         // Now that we extracted the data we want from the jobs, loop through them and add them to DB.
 
-        const sql = 'INSERT INTO `jobs` (`job_title`, `site_name`, `position_location_display`, `start_date`, `end_date`, `close_date`, `occupational_series`, `job_schedule`, `low_grade`, `high_grade`, `min_wage`, `max_wage`, `location_name`, `latitude`, `longitude`, `apply_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-                
+        // Below is old mysql syntax
+        // const sql = 'INSERT INTO `jobs` (`job_title`, `site_name`, `position_location_display`, `start_date`, `end_date`, `close_date`, `occupational_series`, `job_schedule`, `low_grade`, `high_grade`, `min_wage`, `max_wage`, `location_name`, `latitude`, `longitude`, `apply_url`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        
+        
+        // New postgreSQL syntax
+        const sql = `INSERT INTO jobs (
+        job_title, site_name, position_location_display, start_date,
+        end_date, close_date, occupational_series, job_schedule,
+        low_grade, high_grade, min_wage, max_wage, location_name,
+        latitude, longitude, apply_url
+        ) VALUES (
+            $1, $2, $3, $4, $5, $6, $7, $8, $9, $10,
+            $11, $12, $13, $14, $15, $16
+         )`;
+        const client = await connectToDatabase();
+        try {
         for (const job of allJobs) {
             const params = [
                 job.job_title || null,
@@ -124,15 +142,12 @@ export async function getCleanSaveAllNpsJobs() {
                 job.longitude || null,
                 job.apply_URL || null,
             ];
-            const [result] = await connection.execute(sql, params);
-            console.log('Inserted job:', result);
+            await client.query(sql, params);
         }
-
-    } catch (err) {
-        console.error('Error fetching jobs:', err);
     } finally {
-        if (connection) {
-            await connection.end();
-        }
+        client.release();
     }
+} catch(err) {
+    console.error('Error fetchings jobs:', err);
+}
 }

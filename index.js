@@ -1,24 +1,28 @@
 import express from 'express';
-import { getAllNpsJobs } from './api.js';
-import { getAndCleanAllNpsJobs } from './usajAPI.js';
-import { getCleanSaveAllNpsJobs } from './getCleanSave.js';
+import { refreshNpsJobData } from './scripts/refreshJobData.js';
 import './scheduler.js';
-import mysql from 'mysql2/promise';
+import pkg from 'pg';
 import { getDbJobs } from './getDbJobs.js';
-import { dumpGetCleanSaveAllNpsJobs } from './public/js/dumpGetCleanSave.js';
+import dotenv from 'dotenv';
 
 const app = express();
 const port = 3000;
+const { Pool } = pkg;
+dotenv.config();
 
-async function connectToDatabase() {
-    const connection = await mysql.createConnection({
-        host: dbHost,
-        user: dbUser,
-        password: dbPW,
-        database: db
-    });
-    return connection;
-};
+const dbUser = process.env.DB_USERNAME;
+const dbHost = process.env.DB_HOST_NAME;
+const dbPW = process.env.DB_PW;
+const db = process.env.DB_NAME;
+
+const pool = new Pool ({
+    host: dbHost,
+    user: dbUser,
+    password: dbPW,
+    database: db,
+    port: 5432,
+    ssl: { rejectUnauthorized: false }
+});
 
 // virtual path prefix
 app.use('/static', express.static('public'));
@@ -30,10 +34,8 @@ app.get('/', (req, res) => {
 
 app.get('/api/jobs', async (req, res) => {
     try {
-        const connection = await connectToDatabase();
-        const [rows] = await connection.execute('SELECT * FROM jobs');
-        await connection.end();
-        res.json(rows);
+        const result = await pool.query('SELECT * FROM jobs');
+        res.json(result.rows);
     } catch (error) {
         console.error('Failed to fetch jobs from database:', error);
         res.status(500).send('Failed to fetch jobs');
@@ -62,71 +64,11 @@ app.listen(port, () => {
     console.log(`ParkJobs app listening on port ${port}`)
 });
 
-// Toggle which function to run for testing. Trying to build a function that does the fetching, cleaning, and saving all in one.
-// runJobs does the fetching an cleaning.
-// getCleanSave should do it all.
-
-let runJobs = false;
-
-// Now that the fetch, clean, save, is working, set this to false to avoid running up API usage. The data is already saved to the DB.
-// If you want/need fresh data, drop the table, then re-run it. Then, set back to false.
-
-let runAPI = false;
-
-let runRefresh = true;
-
 // The code below uses the dumpGetCleanSave (the whole enchilada) function. Use it to test the full functionality of what we want the API function to do.
-
-function refreshNpsJobData() {
-    (async () => {
-        try {
-            await dumpGetCleanSaveAllNpsJobs();
-            console.log('Refreshed database.');
-    } catch (err) {
-        console.error('Error refreshing database:', err);
-    }
-    })();
-}
-
-
-function fetchNPSJobs() {
-    (async () => {
-        try {
-            await getAndCleanAllNpsJobs();
-            console.log('Initial job fetching complete.');
-        } catch (err) {
-            console.error('Error during initial job fetching:', err);
-        }
-    })();
-};
-
-
-function fetchCleanAndSaveNPSJobs() {
-    (async () => {
-        try {
-            await getCleanSaveAllNpsJobs();
-            console.log('Initial job fetching and saving complete.');
-        } catch (err) {
-            console.error('Error fetching, cleaning, or saving jobs...', err);
-        }
-    })();
-};
-
-
-if (runJobs) {
-    fetchNPSJobs();
-} else {
-    if (runAPI) {
-        fetchCleanAndSaveNPSJobs();
-    }
-    else {
-        refreshNpsJobData();
-        console.log('runJobs and  runAPI set to false. Running refresh.');
-    }
-};
-
-// console.log('About to run getDbJobs...');
-// getDbJobs();
+// Remove this before hosting on Render and set up the refresh in a Render Cron job. Let the server serve it, don't run this function every time the server boots.
+// In short: this is only for testing, once  hosted, the refresh will run when needed.
+// refreshNpsJobData();
+// console.log('runJobs and  runAPI set to false. Running refresh.');
 
 
 

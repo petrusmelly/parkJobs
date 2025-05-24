@@ -1,7 +1,9 @@
 import fetch from 'node-fetch';
 import { writeFile } from 'node:fs/promises';
 import dotenv from 'dotenv';
-import mysql from 'mysql2/promise';
+import pkg from 'pg';
+
+const { Pool } =pkg;
 
 dotenv.config();
 
@@ -9,20 +11,23 @@ const host = process.env.HOST;
 const userAgent = process.env.USER_AGENT;  
 const authKey = process.env.AUTH_KEY;
 const apiUrl = process.env.API_URL;
-const dbUser = process.env.DB_USER;
-const dbHost = process.env.DB_HOST;
+const dbUser = process.env.DB_USERNAME;
+const dbHost = process.env.DB_HOST_NAME;
 const dbPW = process.env.DB_PW;
-const db = process.env.DB;
+const db = process.env.DB_NAME;
+
+const pool = new Pool ({
+    host: dbHost,
+    user: dbUser,
+    password: dbPW,
+    database: db,
+    port: 5432,
+    ssl: { rejectUnauthorized: false }
+});
 
 async function connectToDatabase() {
-    const connection = await mysql.createConnection({
-        host: dbHost,
-        user: dbUser,
-        password: dbPW,
-        database: db
-    });
-    return connection;
-};
+    return pool.connect();
+}
 
 const headers = new Headers({
     'Host': host,
@@ -32,25 +37,22 @@ const headers = new Headers({
 
 export async function getDbJobs() {
     const sqlGetAllJobs = 'SELECT * FROM jobs;'
-    const sqlGetAllMultipleLocationJobs = 'SELECT * FROM jobs WHERE position_location_display LIKE "%Multiple Locations%";'
-    const sqlGetAllSingleLocationJobs = 'SELECT * FROM jobs WHERE position_location_display NOT LIKE "%Multiple Locations%";'
-    let connection;
+    const sqlGetAllMultipleLocationJobs = "SELECT * FROM jobs WHERE position_location_display LIKE '%Multiple Locations%';";
+    const sqlGetAllSingleLocationJobs = "SELECT * FROM jobs WHERE position_location_display NOT LIKE '%Multiple Locations%';";
+    const client = await connectToDatabase();
     try {
-        connection = await connectToDatabase();
-        const [result_all] = await connection.execute(sqlGetAllJobs);
-        const [result_multipleLocations] = await connection.execute(sqlGetAllMultipleLocationJobs);
-        const [result_singleLocations] = await connection.execute(sqlGetAllSingleLocationJobs);
+        const result_all = await client.query(sqlGetAllJobs);
+        const result_multipleLocations = await client.query(sqlGetAllMultipleLocationJobs);
+        const result_singleLocations = await client.query(sqlGetAllSingleLocationJobs);
 
         return {
-            allJobs: result_all,
-            multipleLocationJobs: result_multipleLocations,
-            singleLocationJobs: result_singleLocations
+            allJobs: result_all.rows,
+            multipleLocationJobs: result_multipleLocations.rows,
+            singleLocationJobs: result_singleLocations.rows
         };
     } catch (err) {
-        console.error(err);
+        console.error('Error fetching jobs from database:', err);
     } finally {
-        if (connection) {
-            await connection.end();
+        client.release();
         }
-    }
-};
+    };
