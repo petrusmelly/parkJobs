@@ -67,8 +67,8 @@ app.listen(port, () => {
 // The code below uses the dumpGetCleanSave (the whole enchilada) function. Use it to test the full functionality of what we want the API function to do.
 // Remove this before hosting on Render and set up the refresh in a Render Cron job. Let the server serve it, don't run this function every time the server boots.
 // In short: this is only for testing, once  hosted, the refresh will run when needed.
-refreshNpsJobData();
-console.log('runJobs and  runAPI set to false. Running refresh.');
+// refreshNpsJobData();
+// console.log('runJobs and  runAPI set to false. Running refresh.');
 
 
 
