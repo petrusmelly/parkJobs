@@ -1,6 +1,4 @@
 import express from 'express';
-import { refreshNpsJobData } from './scripts/refreshJobData.js';
-import './scheduler.js';
 import pkg from 'pg';
 import { getDbJobs } from './getDbJobs.js';
 import dotenv from 'dotenv';
