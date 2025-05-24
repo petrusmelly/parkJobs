@@ -1,14 +1,11 @@
-import cron from 'node-cron';
 import { refreshNpsJobData } from './refreshJobData';
 
-cron.schedule('1 0,12,17 * * *', async () => {
-    console.log('Running schedule job at 1 minute past midnight, noon, 5:00pmET: Fetching NPS jobs...');
+(async () => {
     try {
+        console.log('Running cron job: Refreshing NPS job data...');
         await refreshNpsJobData();
-        console.log('Job dumping and fetching complete');
+        console.log('Job data refreshed.');
     } catch (err) {
-        console.error('Error during cron job:', err);
+        console.error('Cron job failed. Error during cron job:', err);
     }
-}, {
-    timezone: "America/New_York",
-});
+})();
