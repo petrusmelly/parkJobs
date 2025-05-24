@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(jobs => {
             jobs.singleLocationJobs.forEach(job => {
                 if (job.latitude && job.longitude) {
-                    const url = job.apply_url.replace(/[\[\]"]+/g, '')
+                    const url = job.apply_url.replace(/[\[\]"]+/g, '').replace(/{|}/g, '');
                     const marker = L.marker([job.latitude, job.longitude]).addTo(map);
                     marker.bindPopup(`<b>${job.job_title}</b><br>${job.site_name}<br>${job.position_location_display}<br><a href="${url}" target="_blank">Apply Here</a>`);
                 }
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     const cellApply = row.insertCell();
                     const link = document.createElement('a');
-                    link.setAttribute('href', job.apply_url.replace(/[\[\]"]+/g, ''));
+                    link.setAttribute('href', job.apply_url.replace(/[\[\]"]+/g, '').replace(/{|}/g, ''));
                     link.setAttribute('target', '_blank');
                     link.textContent = "Apply Here" // this is what will display in the cell as a clickable link for the user
                     cellApply.appendChild(link);
