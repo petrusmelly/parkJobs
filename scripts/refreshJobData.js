@@ -160,13 +160,11 @@ export async function dumpGetCleanSaveAllNpsJobs() {
     }
 }
 
-export function refreshNpsJobData() {
-    (async () => {
-        try {
+export async function refreshNpsJobData() {
+    try {
             await dumpGetCleanSaveAllNpsJobs();
             console.log('Refreshed database.');
     } catch (err) {
         console.error('Error refreshing database:', err);
     }
-    })();
 }

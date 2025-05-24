@@ -1,4 +1,4 @@
-import { refreshNpsJobData } from './refreshJobData';
+import { refreshNpsJobData } from './refreshJobData.js';
 
 (async () => {
     try {
