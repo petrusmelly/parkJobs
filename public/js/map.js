@@ -7,6 +7,37 @@ document.addEventListener('DOMContentLoaded', function() {
         attribution: '© OpenStreetMap'
     }).addTo(map);
 
+    // Cluster limit 
+    const SPIDERFYLIMIT = 10;
+
+    // Cluster group with some options enabled, this will be empty and we'll add markers to this cluster layer
+    const jobClusters = L.markerClusterGroup({
+        spiderfyOnMaxZoom: true, //when many markers are at same coords, this will fan them out
+        zoomToBoundsOnClick: false,
+        showCoverageonHover: true,
+        maxClusterRadius: 30
+    });
+
+    // Logic to handle cluster clicks -- limit clusters to 10 and then break out if less than 10
+    jobClusters.on('clusterclick', (e) => {
+        const cluster = e.layer;
+        const count = cluster.getChildCount();
+
+        if (count <= SPIDERFYLIMIT) {
+            //if less than the limit, spiderfy the pins
+            cluster.spiderfy();
+            return
+        }
+
+        // if the clusters are over 10, zoom in but don't spiderfy
+        const currentZoom = map.getZoom();
+        const maxZoom = map.getMaxZoom();
+        if (currentZoom < maxZoom) {
+            map.setView(cluster.getLatLng(), currentZoom + 1, { animate: true });
+        };
+
+    });
+
     // const marker = L.marker([40, -77.03]).addTo(map);
     // marker.bindPopup("Hello, world!").openPopup();
 
@@ -16,10 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
             jobs.singleLocationJobs.forEach(job => {
                 if (job.latitude && job.longitude) {
                     const url = job.apply_url.replace(/[\[\]"]+/g, '').replace(/{|}/g, '');
-                    const marker = L.marker([job.latitude, job.longitude]).addTo(map);
+                    // Make the marker at the coords for each job
+                    const marker = L.marker([job.latitude, job.longitude]);
+                    // Create the pin pop up for each marker
                     marker.bindPopup(`<b>${job.job_title}</b><br>${job.site_name}<br>${job.position_location_display}<br><a href="${url}" target="_blank">Apply Here</a>`);
+                    // Add each marker to the cluster layer created above
+                    jobClusters.addLayer(marker);
                 }
             });
+
+            // add the  cluster layer from above to the map
+            map.addLayer(jobClusters);
+
             // do something with multpleLocationJobsHere -- put them in a table?
             const multiLocationJobs = jobs.multipleLocationJobs;
             if (multiLocationJobs.length > 0) {
