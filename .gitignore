@@ -1,2 +1,5 @@
 .env
 .env.local
+.sql
+.jsonusajobs_raw_data.json
+schema.sql
