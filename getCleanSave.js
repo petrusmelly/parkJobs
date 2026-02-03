@@ -10,7 +10,9 @@ import pkg from 'pg';
 
 const { Pool } =pkg;
 
-dotenv.config();
+// Change this back to .config(); so it uses regular .env. .env.local is for testing updated schema on local db
+dotenv.config({ path: '.env.local' });
+console.log("DB host:", process.env.DB_HOST_NAME, "DB:", process.env.DB_NAME);
 
 const host = process.env.HOST;
 const userAgent = process.env.USER_AGENT;  
@@ -21,13 +23,15 @@ const dbHost = process.env.DB_HOST_NAME;
 const dbPW = process.env.DB_PW;
 const db = process.env.DB_NAME;
 
+const isLocal = dbHost === 'localhost' || dbHost === '127.0.0.1';
+
 const pool = new Pool ({
     host: dbHost,
     user: dbUser,
     password: dbPW,
     database: db,
-    port: 5432,
-    ssl: { rejectUnauthorized: false }
+    port: Number(process.env.DB_PORT || 5432),
+    ssl: isLocal? false: { rejectUnauthorized: false }
 });
 
 async function connectToDatabase() {
@@ -68,6 +72,7 @@ export async function getCleanSaveAllNpsJobs() {
             // then save just our selected data to a new list of jobs. That list is what we will loop through and save to the DB.
 
             jobs.forEach(item => {
+                const usajobs_id = item.MatchedObjectId
                 const descriptor = item.MatchedObjectDescriptor;
                 const positionLocation = descriptor.PositionLocation[0];
                 const payInfo = descriptor.PositionRemuneration[0];
@@ -76,6 +81,7 @@ export async function getCleanSaveAllNpsJobs() {
                 const userAreaDetails = descriptor.UserArea.Details
 
                 const parkJob = {
+                    usajobs_id : usajobs_id,
                     job_title : descriptor.PositionTitle,
                     site_name : descriptor.SubAgency,
                     position_location_display : descriptor.PositionLocationDisplay,

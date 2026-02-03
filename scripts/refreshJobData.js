@@ -10,7 +10,9 @@ import pkg from 'pg';
 
 const { Pool } = pkg;
 
-dotenv.config();
+// Change this back to .config(); so it uses regular .env. .env.local is for testing updated schema on local db
+dotenv.config({ path: '.env.local' });
+console.log("DB host:", process.env.DB_HOST_NAME, "DB:", process.env.DB_NAME);
 
 const host = process.env.HOST;
 const userAgent = process.env.USER_AGENT;  
@@ -21,13 +23,15 @@ const dbHost = process.env.DB_HOST_NAME;
 const dbPW = process.env.DB_PW;
 const db = process.env.DB_NAME;
 
+const isLocal = dbHost === 'localhost' || dbHost === '127.0.0.1';
+
 const pool = new Pool ({
     host: dbHost,
     user: dbUser,
     password: dbPW,
     database: db,
-    port: 5432,
-    ssl: { rejectUnauthorized: false }
+    port: Number(process.env.DB_PORT || 5432),
+    ssl: isLocal? false: { rejectUnauthorized: false }
 });
 
 async function connectToDatabase() {
@@ -48,6 +52,24 @@ export async function dumpGetCleanSaveAllNpsJobs() {
     const url = apiUrl;
     
     const client = await connectToDatabase();
+
+    const insertJobSql = `
+            INSERT INTO jobs (
+            usajobs_id,
+            job_title, site_name, position_location_display, start_date, 
+            end_date, close_date, occupational_series, job_schedule, 
+            low_grade, high_grade, min_wage, max_wage, location_name, 
+            latitude, longitude, apply_url, agency_name
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8,
+                      $9, $10, $11, $12, $13, $14, $15, $16, $17, $18
+                      )`;
+
+    const insertLocSql = `
+        INSERT INTO job_locations (
+        usajobs_id, location_name, latitude, longitude
+        )
+        VALUES ($1, $2, $3, $4);
+        `;
 
     try {
         // Check for exising jobs in the database
@@ -80,14 +102,20 @@ export async function dumpGetCleanSaveAllNpsJobs() {
             // then save just our selected data to a new list of jobs. That list is what we will loop through and save to the DB.
 
             jobs.forEach(item => {
+                const usajobs_id = String(item.MatchedObjectId ?? '');
                 const descriptor = item.MatchedObjectDescriptor;
                 const positionLocation = descriptor.PositionLocation[0];
                 const payInfo = descriptor.PositionRemuneration[0];
                 const occSeries = descriptor.JobCategory[0].Code;
                 const jobSchedule = descriptor.JobGrade[0].Code;
-                const userAreaDetails = descriptor.UserArea.Details
+                const userAreaDetails = descriptor.UserArea.Details;
+
+                const locations = Array.isArray(descriptor.PositionLocation) ? descriptor.PositionLocation : [];
+
+                const firstLoc = locations[0] ?? {};
 
                 const parkJob = {
+                    usajobs_id,
                     job_title : descriptor.PositionTitle,
                     site_name : descriptor.SubAgency,
                     position_location_display : descriptor.PositionLocationDisplay,
@@ -104,8 +132,11 @@ export async function dumpGetCleanSaveAllNpsJobs() {
                     latitude : positionLocation.Latitude,
                     longitude : positionLocation.Longitude,
                     apply_URL : descriptor.ApplyURI,
+                    agency_name: descriptor.OrganizationName,
+
+                    locations
                 };
-                allJobs.push(parkJob);
+                if (parkJob.usajobs_id) allJobs.push(parkJob);
             });
 
             console.log(`Fetched page ${currentPage}, ${jobs.length} jobs`);
@@ -118,19 +149,10 @@ export async function dumpGetCleanSaveAllNpsJobs() {
         console.log('Data saved to npsJobsData.json');
         
         // Now that we extracted the data we want from the jobs, loop through them and add them to DB.
-
-        const sql = `
-            INSERT INTO jobs (
-            job_title, site_name, position_location_display, start_date, 
-            end_date, close_date, occupational_series, job_schedule, 
-            low_grade, high_grade, min_wage, max_wage, location_name, 
-            latitude, longitude, apply_url
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8,
-                      $9, $10, $11, $12, $13, $14, $15, $16
-                      )`;
                 
         for (const job of allJobs) {
             const params = [
+                job.usajobs_id,
                 job.job_title || null,
                 job.site_name || null,
                 job.position_location_display || null,
@@ -147,8 +169,27 @@ export async function dumpGetCleanSaveAllNpsJobs() {
                 job.latitude || null,
                 job.longitude || null,
                 job.apply_URL || null,
+                job.agency_name || null
             ];
-            await client.query(sql, params);
+            await client.query(insertJobSql, params);
+
+            // insert all locations
+
+            const locs = Array.isArray(job.locations) ? job.locations : [];
+            for (const loc of locs) {
+                const locName = loc?.LocationName ?? null;
+
+                if (!locName) continue;
+
+                const locParams = [
+                    job.usajobs_id,
+                    locName,
+                    loc?.Latitude ?? null,
+                    loc?.Longitude ?? null
+                ];
+
+                await client.query(insertLocSql, locParams);
+            }
         }
 
         console.log(`Inserted ${allJobs.length} jobs into database.`);

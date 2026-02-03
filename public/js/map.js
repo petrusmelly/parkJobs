@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cluster group with some options enabled, this will be empty and we'll add markers to this cluster layer
     const jobClusters = L.markerClusterGroup({
-        spiderfyOnMaxZoom: true, //when many markers are at same coords, this will fan them out
+        spiderfyOnMaxZoom: false,
         zoomToBoundsOnClick: false,
         showCoverageOnHover: true,
         maxClusterRadius: 30
@@ -27,26 +27,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Logic to handle cluster clicks -- limit clusters to 10 and then break out if less than 10
     jobClusters.on('clusterclick', (e) => {
+        L.DomEvent.stop(e); // prevents follow-up zoom/unspiderfy behavior
         const cluster = e.layer;
         const count = cluster.getChildCount();
 
-        if (count <= SPIDERFYLIMIT) {
-            //if less than the limit, spiderfy the pins
-            cluster.spiderfy();
-            return
-        }
-
-        // if the clusters are over 10, zoom in but don't spiderfy
         const currentZoom = map.getZoom();
         const maxZoom = map.getMaxZoom();
+        const spiderZoomLimit = 11;
+
+        if (count <= SPIDERFYLIMIT || currentZoom >= spiderZoomLimit || currentZoom >= maxZoom) {
+            //if cluster is small, or we're zoomed in over spiderZoom, or over max zoom, then spiderfy
+            cluster.spiderfy();
+            return false;
+        }
+
+        // otherwise, zoom in one step
+        
         if (currentZoom < maxZoom) {
             map.setView(cluster.getLatLng(), currentZoom + 1, { animate: true });
+            return false;
         };
 
+        return false;
     });
 
 
     // filter elements
+    const agencyEl = document.getElementById('agencyFilter');
     const seriesEl = document.getElementById('seriesFilter');
     const titleEl = document.getElementById('jobTitleFilter');
     const scheduleEl = document.getElementById('scheduleFilter');
@@ -57,6 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const countPinsEl = document.getElementById('countPins');
     const countMultiEl = document.getElementById('countMulti');
 
+     // pins array
+    let pins = [];
 
     // helper function to display count of jobs shown
     function updateCounts(pinsCount, multiCount) {
@@ -73,12 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
         gradeEl.appendChild(opt);
     };
 
-
-    // Two job arrays -- single locations (will be pins on map) and multiple locations (will be place in toggle-able table)
-    let singleLocationJobs = [];
-    let multiLocationJobs = [];
-
-
     // function for cleaning apply URLs
     function cleanApplyUrl(apply_url) {
         return String(apply_url).replace(/[\[\]"]+/g, '').replace(/{|}/g, '');
@@ -94,19 +97,44 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
 
-    // function for rendering markers from job array
-    function renderMarkers(jobsArray) {
+    // function for rendering markers from pins array
+    function renderMarkers(pinsArray) {
         jobClusters.clearLayers();
 
-        jobsArray.forEach(job => {
-            if (!jobHasCoords(job)) return;
+        pinsArray.forEach(pin => {
+            if (!jobHasCoords(pin)) return;
 
-            const url = cleanApplyUrl(job.apply_url);
-            const marker = L.marker([parseFloat(job.latitude), parseFloat(job.longitude)]);
-            marker.bindPopup(
-                `<b>${job.job_title}</b><br>${job.site_name}<br>${job.position_location_display}<br>` +
-                `<a href="${url}" target="_blank" rel="noopener noreferrer">Apply Here</a>`
-            );
+            const lat = parseFloat(pin.latitude);
+            const lng = parseFloat(pin.longitude);
+
+            // build popup contents, a scrollable list of jobs @ this coordinate
+
+            const jobs = Array.isArray(pin.jobs) ? pin.jobs: [];
+
+            const jobsHtml = jobs.map(j => {
+                const url = cleanApplyUrl(j.apply_url);
+                const title = j.job_title ?? '';
+                const site = j.site_name ?? '';
+                const agency = j.agency_name ?? '';
+
+                return `
+                    <div style="margin-bottom:8px;">
+                        <div><b>${title}</b></div>
+                        <div>${site}${agency ? ` — ${agency}` : ''}</div>
+                        <a href="${url}" target="_blank" rel="noopener noreferrer">Apply Here</a>
+                    </div>
+                `;
+            }).join('<hr style="margin:8px 0;">');
+
+            const popupHtml = `
+            <div style="max-height:240px; overflow:auto;">
+                <div style="margin-bottom:8px;"><b>${pin.location_name ?? ''}</b></div>
+                ${jobsHtml || '<i>No jobs at this location.</i>'}
+            </div>
+        `;
+
+            const marker = L.marker([lat, lng]);
+            marker.bindPopup(popupHtml);
             
             jobClusters.addLayer(marker);
 
@@ -171,6 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     function applyFilters () {
+        const agency = (agencyEl.value || '').trim();
         const q = (titleEl.value || '').trim().toLowerCase();
         const series = (seriesEl.value || '').trim();
         const schedule = (scheduleEl.value || '').trim();
@@ -178,94 +207,112 @@ document.addEventListener('DOMContentLoaded', function() {
         const grade = gradeStr ? parseInt(gradeStr, 10) : null;
 
 
-        const filteredSingles = singleLocationJobs.filter(job => {
-            const matchesTitle = (job.job_title || '').toLowerCase().includes(q);
-            const matchesSeries = !series || job.occupational_series === series;
-            const matchesSchedule = !schedule || job.job_schedule === schedule;
+       const filteredPins = pins.map(pin => {
+        const jobs = Array.isArray(pin.jobs) ? pin.jobs : [];
+
+        // filter jobs WITHIN this pin
+        const filteredJobs = jobs.filter(j => {
+            const matchesAgency = !agency || j.agency_name === agency;
+            const matchesTitle = (j.job_title || '').toLowerCase().includes(q);
+            const matchesSeries = !series || j.occupational_series === series;
+            const matchesSchedule = !schedule || j.job_schedule === schedule;
+
             let matchesGrade = true;
             if (grade !== null) {
-                const low = parseInt(job.low_grade ?? '', 10);
-                const high = parseInt(job.high_grade ?? '', 10);
-                matchesGrade = Number.isFinite(low) && Number.isFinite(high) && grade >= low && grade <= high;
-            }
-            return matchesTitle && matchesSeries && matchesSchedule && matchesGrade;
+                const low = parseInt(j.low_grade ?? '', 10);
+                const high = parseInt(j.high_grade ?? '', 10);
+                matchesGrade =
+                    Number.isFinite(low) &&
+                    Number.isFinite(high) &&
+                    grade >= low &&
+                    grade <= high;
+            };
+
+            return matchesAgency && matchesTitle && matchesSeries && matchesSchedule && matchesGrade
         });
 
-        const filteredMultis = multiLocationJobs.filter(job => {
-            const matchesTitle = (job.job_title || '').toLowerCase().includes(q);
-            const matchesSeries = !series || job.occupational_series === series;
-            const matchesSchedule = !schedule || job.job_schedule === schedule;
-            let matchesGrade = true;
-            if (grade !== null) {
-                const low = parseInt(job.low_grade ?? '', 10);
-                const high = parseInt(job.high_grade ?? '', 10);
-                matchesGrade = Number.isFinite(low) && Number.isFinite(high) && grade >= low && grade <= high;
-            }
-            return matchesTitle && matchesSeries && matchesSchedule && matchesGrade;
-        });
+        // return a new pin object with only the jobs that match
+        return {...pin, jobs: filteredJobs };
 
-        renderMarkers(filteredSingles);
+       })
+       // keep only pins that still have at least one job in the pop up
+       .filter(pin => Array.isArray(pin.jobs) && pin.jobs.length > 0);
 
-        // Only render the jobs with multiple locations if the table is enabled
-        if (toggleMulti.checked) {
-            renderMultiTable(filteredMultis);
-        };
+       renderMarkers(filteredPins);
 
-        // Call update counts to update the span element that displays job counts
-        updateCounts(filteredSingles.length, toggleMulti.checked ? filteredMultis.length : 0);
+       // Counts of pins and counts of jobs
+       const pincount = filteredPins.length;
+       const jobCount = filteredPins.reduce((sum, p) => sum + p.jobs?.length || 0, 0);
+       
+       // update counts of pins and jobs on UI
+       updateCounts(jobCount, 0);
+       
+        // const filtered = pins.filter(job => {
+        //     const matchesAgency = !agency || job.agency_name === agency;
+        //     const matchesTitle = (job.job_title || '').toLowerCase().includes(q);
+        //     const matchesSeries = !series || job.occupational_series === series;
+        //     const matchesSchedule = !schedule || job.job_schedule === schedule;
+            
+        //     let matchesGrade = true;
+        //     if (grade !== null) {
+        //         const low = parseInt(job.low_grade ?? '', 10);
+        //         const high = parseInt(job.high_grade ?? '', 10);
+        //         matchesGrade = 
+        //             Number.isFinite(low) && 
+        //             Number.isFinite(high) && 
+        //             grade >= low && 
+        //             grade <= high;
+        //     }
+
+        //     return matchesAgency && matchesTitle && matchesSeries && matchesSchedule && matchesGrade;
+        // });
+
+        // renderMarkers(filtered);
+        // updateCounts(filtered.length, 0);
     };
 
     function resetFilters() {
+        if (agencyEl) agencyEl.value = '';
         titleEl.value = '';
         seriesEl.value = '';
         scheduleEl.value = '';
         gradeEl.value = '';
-        
-        // toggle table back on
-        toggleMulti.checked = true;
-        
-        applyMultiToggle();   // shows the table section
         applyFilters();   // re-renders markers + table + counts
     };
 
-    toggleMulti.addEventListener('change', applyMultiToggle);
+    agencyEl.addEventListener('change', applyFilters);
     titleEl.addEventListener('input', applyFilters);
     seriesEl.addEventListener('change', applyFilters);
     scheduleEl.addEventListener('change', applyFilters);
     gradeEl.addEventListener('change', applyFilters);
     resetBtn.addEventListener('click', resetFilters);
-
     
     fetch('/park/jobs')
         .then(response => response.json())
         .then(jobs => {
+            console.log("jobs payload keys:", jobs && typeof jobs === 'object' ? Object.keys(jobs) : typeof jobs, jobs);
 
-            // Storing jobs in outer arrays so filters can use them later
-            singleLocationJobs = jobs.singleLocationJobs ?? [];
-            multiLocationJobs = jobs.multipleLocationJobs ?? [];
+            pins = jobs.pins ?? [];
+
+            updateCounts(pins.length, 0);
 
             seriesEl.innerHTML = '<option value="">All</option>';
             scheduleEl.innerHTML = '<option value="">All</option>';
+            agencyEl.innerHTML = '<option value="">All</option>';
+
+            // Helperr: flatten all jobs from all pins
+            const allJobs = pins.flatMap(p => Array.isArray(p.jobs) ? p.jobs: []);
 
             // Populating the series filter
-            const seriesSet = new Set([
-                ...singleLocationJobs.map(j => j.occupational_series),
-                ...multiLocationJobs.map(j => j.occupational_series),
-            ].filter(Boolean));
-
+            const seriesSet = new Set(allJobs.map(j => j.occupational_series).filter(Boolean));
             [...seriesSet].sort().forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s;
                 opt.textContent = s;
                 seriesEl.appendChild(opt);
             });
-
-            // Populating the schedule filter
-            const scheduleSet = new Set([
-                ...singleLocationJobs.map(j => j.job_schedule),
-                ...multiLocationJobs.map(j => j.job_schedule),
-            ].filter(Boolean));
-
+            
+            const scheduleSet = new Set(allJobs.map(j => j.job_schedule).filter(Boolean));
             [...scheduleSet].sort().forEach(s => {
                 const opt = document.createElement('option');
                 opt.value = s;
@@ -273,10 +320,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 scheduleEl.appendChild(opt);
             });
 
-            // No longer need to call renderMarkers or renderMultiTable or applyFilters
-            // applyMultiToggle() will run all of them, based on defaults (blank, so all jobs appear), 
-            // it also calls applyFilters which runs both render functions (singles and multis)
-            applyMultiToggle();
+            const agencySet = new Set(allJobs.map(j => j.agency_name).filter(Boolean));
+            [...agencySet].sort().forEach(a => {
+                const opt = document.createElement('option');
+                opt.value = a;
+                opt.textContent = a;
+                agencyEl.appendChild(opt);
+            });
+
+            //initial render
+            applyFilters();
 
         })
         .catch(error => console.error('Failed to load job data:', error));

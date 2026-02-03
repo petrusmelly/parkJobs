@@ -8,7 +8,9 @@ import fetch from 'node-fetch';
 import { writeFile } from 'node:fs/promises';
 import dotenv from 'dotenv';
 
-dotenv.config();
+// Change this back to .config(); so it uses regular .env. .env.local is for testing updated schema on local db
+dotenv.config({ path: '.env.local' });
+console.log("DB host:", process.env.DB_HOST_NAME, "DB:", process.env.DB_NAME);
 
 const host = process.env.HOST;
 const userAgent = process.env.USER_AGENT;  

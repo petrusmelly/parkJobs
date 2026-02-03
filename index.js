@@ -6,20 +6,24 @@ import dotenv from 'dotenv';
 const app = express();
 const port = 3000;
 const { Pool } = pkg;
-dotenv.config();
+// Change this back to .config(); so it uses regular .env. .env.local is for testing updated schema on local db
+dotenv.config({ path: '.env.local' });
+console.log("DB host:", process.env.DB_HOST_NAME, "DB:", process.env.DB_NAME);
 
 const dbUser = process.env.DB_USERNAME;
 const dbHost = process.env.DB_HOST_NAME;
 const dbPW = process.env.DB_PW;
 const db = process.env.DB_NAME;
 
+const isLocal = dbHost === 'localhost' || dbHost === '127.0.0.1';
+
 const pool = new Pool ({
     host: dbHost,
     user: dbUser,
     password: dbPW,
     database: db,
-    port: 5432,
-    ssl: { rejectUnauthorized: false }
+    port: Number(process.env.DB_PORT || 5432),
+    ssl: isLocal? false: { rejectUnauthorized: false }
 });
 
 // virtual path prefix
@@ -49,6 +53,10 @@ app.get('/about', (req, res) => {
 // this will display the DB dadta as JSON in the browser
 app.get('/park/jobs', async (req, res) => {
     try {
+        const jobsCount = await pool.query('SELECT COUNT(*) FROM jobs;');
+        const locCount  = await pool.query('SELECT COUNT(*) FROM job_locations;');
+
+        console.log('jobs:', jobsCount.rows[0].count, 'locations:', locCount.rows[0].count);
         const jobData = await getDbJobs();
         res.json(jobData);
     } catch (err) {
