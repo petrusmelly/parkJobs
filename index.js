@@ -4,25 +4,30 @@ import { getDbJobs } from './getDbJobs.js';
 import dotenv from 'dotenv';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
 const { Pool } = pkg;
 
 dotenv.config();
 
-const dbUser = process.env.DB_USERNAME;
-const dbHost = process.env.DB_HOST_NAME;
-const dbPW = process.env.DB_PW;
-const db = process.env.DB_NAME;
+const connectionString =
+  process.env.INTERNAL_DB_URL || 
+  process.env.EXTERNAL_DB_URL;
+
+if (!connectionString) {
+  throw new Error("No INTERNAL_DB_URL or EXTERNAL_DB_URL found in env.");
+}
 
 const isRender = !!process.env.RENDER;
 
-const pool = new Pool ({
-    host: dbHost,
-    user: dbUser,
-    password: dbPW,
-    database: db,
-    port: Number(process.env.PORT || 3000 ),
-    ssl: isRender ? { rejectUnauthorized: false } : false,
+console.log("RENDER?", !!process.env.RENDER);
+console.log("Has INTERNAL_DB_URL?", !!process.env.INTERNAL_DB_URL);
+console.log("Has EXTERNAL_DB_URL?", !!process.env.EXTERNAL_DB_URL);
+console.log("Using connection string:", process.env.INTERNAL_DB_URL ? "INTERNAL" : "EXTERNAL");
+
+const pool = new Pool({
+  connectionString,
+  ssl: isRender ? { rejectUnauthorized: false } : false,
 });
 
 // virtual path prefix
