@@ -6,24 +6,23 @@ import dotenv from 'dotenv';
 const app = express();
 const port = 3000;
 const { Pool } = pkg;
-// Change this back to .config(); so it uses regular .env. .env.local is for testing updated schema on local db
-dotenv.config({ path: '.env.local' });
-console.log("DB host:", process.env.DB_HOST_NAME, "DB:", process.env.DB_NAME);
+
+dotenv.config();
 
 const dbUser = process.env.DB_USERNAME;
 const dbHost = process.env.DB_HOST_NAME;
 const dbPW = process.env.DB_PW;
 const db = process.env.DB_NAME;
 
-const isLocal = dbHost === 'localhost' || dbHost === '127.0.0.1';
+const isRender = !!process.env.RENDER;
 
 const pool = new Pool ({
     host: dbHost,
     user: dbUser,
     password: dbPW,
     database: db,
-    port: Number(process.env.DB_PORT || 5432),
-    ssl: isLocal? false: { rejectUnauthorized: false }
+    port: Number(process.env.PORT || 3000 ),
+    ssl: isRender ? { rejectUnauthorized: false } : false,
 });
 
 // virtual path prefix

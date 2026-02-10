@@ -11,25 +11,22 @@ import pkg from 'pg';
 const { Pool } = pkg;
 
 // Change this back to .config(); so it uses regular .env. .env.local is for testing updated schema on local db
-dotenv.config({ path: '.env.local' });
-console.log("DB host:", process.env.DB_HOST_NAME, "DB:", process.env.DB_NAME);
+dotenv.config();
 
 const host = process.env.HOST;
 const userAgent = process.env.USER_AGENT;  
 const authKey = process.env.AUTH_KEY;
 const apiUrl = process.env.API_URL;
-const dbUser = process.env.DB_USERNAME;
-const dbHost = process.env.DB_HOST_NAME;
-const dbPW = process.env.DB_PW;
-const db = process.env.DB_NAME;
 
-const pool = new Pool ({
-    host: dbHost,
-    user: dbUser,
-    password: dbPW,
-    database: db,
-    port: 5432,
-    ssl: { rejectUnauthorized: false }
+const connectionString =
+  process.env.INTERNAL_DB_URL || 
+  process.env.EXTERNAL_DB_URL;
+
+const isRender = !!process.env.RENDER;
+
+const pool = new Pool({
+  connectionString,
+  ssl: isRender ? { rejectUnauthorized: false } : false,
 });
 
 async function connectToDatabase() {

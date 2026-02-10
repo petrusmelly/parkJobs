@@ -108,29 +108,6 @@ h2 {
     margin-top: 2.5rem;
 }
 
-/* MULTI JOBS TABLE */
-
-#table-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#tableContainer {
-    width: 80vw; /* Adjust width as necessary */
-    height: 250px; /* Adjust based on row height to show about 5 rows */
-    overflow-y: auto; /* Allows vertical scrolling */
-    border: 1px solid #ccc; /* Optional, for better visibility of the container */
-    margin: 20px;
-}
-
-table {
-    height: 200px;
-    overflow-y: auto;
-    background: #e8e8e8;
-    margin: 20px 0;
-}
-
 /* ABOUT */
 
 #about-section {

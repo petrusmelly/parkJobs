@@ -28,20 +28,6 @@ main {
     width: 75vw;
 }
 
-#tableContainer {
-    width: 100%; /* Adjust width as necessary */
-    height: 250px; /* Adjust based on row height to show about 5 rows */
-    overflow-y: auto; /* Allows vertical scrolling */
-    border: 1px solid #ccc; /* Optional, for better visibility of the container */
-}
-
-table {
-    height: 200px;
-    overflow-y: auto;
-    background: #e8e8e8;
-    margin: 20px 0;
-}
-
 footer {
     background: #222;
     color: #fff;

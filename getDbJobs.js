@@ -5,28 +5,22 @@ import pkg from 'pg';
 
 const { Pool } =pkg;
 
-// Change this back to .config(); so it uses regular .env. .env.local is for testing updated schema on local db
-dotenv.config({ path: '.env.local' });
-console.log("DB host:", process.env.DB_HOST_NAME, "DB:", process.env.DB_NAME);
+dotenv.config();
 
 const host = process.env.HOST;
 const userAgent = process.env.USER_AGENT;  
 const authKey = process.env.AUTH_KEY;
 const apiUrl = process.env.API_URL;
-const dbUser = process.env.DB_USERNAME;
-const dbHost = process.env.DB_HOST_NAME;
-const dbPW = process.env.DB_PW;
-const db = process.env.DB_NAME;
 
-const isLocal = dbHost === 'localhost' || dbHost === '127.0.0.1';
+const connectionString =
+  process.env.INTERNAL_DB_URL || 
+  process.env.EXTERNAL_DB_URL;
 
-const pool = new Pool ({
-    host: dbHost,
-    user: dbUser,
-    password: dbPW,
-    database: db,
-    port: Number(process.env.DB_PORT || 5432),
-    ssl: isLocal? false: { rejectUnauthorized: false }
+const isRender = !!process.env.RENDER;
+
+const pool = new Pool({
+  connectionString,
+  ssl: isRender ? { rejectUnauthorized: false } : false,
 });
 
 async function connectToDatabase() {
@@ -41,33 +35,6 @@ const headers = new Headers({
 
 export async function getDbJobs() {
     const client = await connectToDatabase();
-    
-    // Pins as jobs:
-//     const sqlPins = `
-//     SELECT
-//       jl.usajobs_id,
-//       jl.location_name,
-//       jl.latitude,
-//       jl.longitude,
-//       j.job_title,
-//       j.site_name,
-//       j.position_location_display,
-//       j.occupational_series,
-//       j.job_schedule,
-//       j.low_grade,
-//       j.high_grade,
-//       j.min_wage,
-//       j.max_wage,
-//       j.apply_url,
-//       j.agency_name
-//     FROM job_locations jl
-//     JOIN jobs j ON j.usajobs_id = jl.usajobs_id
-//     WHERE jl.latitude IS NOT NULL AND jl.longitude IS NOT NULL;
-//   `;
-
-// Pins as locations, derived using lat/long of jobs in database
-// Use this to test idea that instead of all jobs are pins,
-// we'll set one pin to a location, and the marker popup will be a list of jobs at that pin
 
         const sqlPins = `
         SELECT

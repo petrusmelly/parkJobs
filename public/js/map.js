@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const titleEl = document.getElementById('jobTitleFilter');
     const scheduleEl = document.getElementById('scheduleFilter');
     const gradeEl = document.getElementById('gradeFilter');
-    const toggleMulti = document.getElementById('toggleMulti');
     const multiJobsContainer = document.getElementById('table-section');
     const resetBtn = document.getElementById('resetFilters');
     const countPinsEl = document.getElementById('countPins');
@@ -140,62 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         });
 
-    };
-
-
-    function renderMultiTable(jobsArray) {
-        const tableContainer = document.getElementById('tableContainer');
-        tableContainer.innerHTML = '';
-
-        if (!jobsArray || jobsArray.length === 0) return;
-
-        const table = document.createElement('table');
-        table.style.width = '100%';
-        table.setAttribute('border', '1');
-
-        const thead = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-
-        ['Job Title', 'Site Name', 'Apply Link'].forEach(text => {
-            const th = document.createElement('th');
-            th.textContent = text;
-            headerRow.appendChild(th);
-        });
-
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-
-        const tbody = document.createElement('tbody');
-
-        jobsArray.forEach(job => {
-            const row = tbody.insertRow();
-            
-            row.insertCell().textContent = job.job_title ?? '';
-            row.insertCell().textContent = job.site_name ?? '';
-            
-            const cellApply = row.insertCell();
-            const link = document.createElement('a');
-            link.href = cleanApplyUrl(job.apply_url);
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.textContent = 'Apply Here';
-            cellApply.appendChild(link);
-        });
-        
-        table.appendChild(tbody);
-        tableContainer.appendChild(table);
-    };
-
-    function applyMultiToggle() {
-        if (!multiJobsContainer) return;
-        const show = toggleMulti.checked;
-        // if the multiple jobs table filter is checked, show it, if unchecked then hide by setting display to none
-        multiJobsContainer.style.display = show ? '' : 'none';
-
-        // if the filter is checked, run the applyFilters function, this will keep the table refreshed with all jobs unless filtered
-        if (show) {
-            applyFilters();
-        }
     };
 
     function applyFilters () {

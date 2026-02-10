@@ -3,3 +3,5 @@
 .sql
 .jsonusajobs_raw_data.json
 schema.sql
+render_backup.sql
+
